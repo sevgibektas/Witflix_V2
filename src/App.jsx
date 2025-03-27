@@ -9,15 +9,24 @@ import Browse from './pages/Browse'
 import NavController from './components/NavController'
 
 function App() {
+  const [activeProfile, setActiveProfile] = useState(null);
+
+
   return (
     <>
-      <Switch>
+      <Switch >
         <Route path="/" exact>
           <Redirect to="/signup" /> {/* Yönlendirme için Redirect kullanıyoruz */}
         </Route>
-        <Route path="/signup" component={SignUp} />
-        <Route path="/welcome" component={Welcome} />
-        <Route path="/browse" component={Browse} />
+        <Route path="/signup">
+        <SignUp />
+        </Route>
+        <Route path="/welcome" >
+        <Welcome setActiveProfile={setActiveProfile}/>
+        </Route>
+        <Route path="/browse"  >
+        <Browse activeProfile={activeProfile}/>
+        </Route>
       </Switch>
       <NavController />
     </>

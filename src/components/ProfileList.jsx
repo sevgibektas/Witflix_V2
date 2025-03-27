@@ -1,20 +1,54 @@
 import React ,{useEffect, useState} from 'react'
 import Profile from './Profile';
 import { profile_data } from '../data';
+import styled from 'styled-components';
+import axios from 'axios';
 
-function ProfileList() {
+const Heading = styled.h1`
+
+`
+const ProfileSection = styled.div`
+    display: flex;
+    gap : 3rem;
+    margin-bottom : 2rem; 
+`
+const Button = styled.button`
+    border: 1px solid gray;
+    padding: .5rem 2rem;
+    color : gray;
+
+`
+
+function ProfileList(props) {
     const[profiles, setProfiles] =useState([]);
+   const {setActiveProfile} = props;
 
     useEffect(()=>{
+        axios.get("https://reqres.in/api/users")
+        .then((responce) =>{
+            console.log(responce.data.data);
+            setProfiles(profile_data);
+        })
+        .catch((error) =>{
+            console.log(error.message);
+        })
         setProfiles(profile_data)
     }, [])
 
-  return (
-    <div>{profiles.map((profile, index) =>(
-    <Profile key={index} profil={profile}/>
-        ))
+    
 
-}</div>
+  return (
+    <div>
+        <Heading>Who's Watching</Heading>
+
+        <ProfileSection>
+        {profiles.map((profile, index) =>(
+        <Profile key={index} profil={profile} setActiveProfile={setActiveProfile}/>
+        ))}
+        </ProfileSection>
+        
+        <Button>Manage Profiles</Button>
+        </div>
   )
 }
 
